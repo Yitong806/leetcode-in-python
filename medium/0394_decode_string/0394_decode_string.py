@@ -22,7 +22,3 @@ class Solution:
                 current_str += char
 
         return current_str
-
-if __name__ == '__main__':
-    s1 = Solution()
-    print(s1.decodeString('3[2[bc]]'))

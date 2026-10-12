@@ -1,9 +1,10 @@
 from collections import deque
+import heapq
 
 
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
-        return self.on_descending_queue(nums, k)
+        return self.onlogn_priority_queue(nums, k)
 
     def onk_brute_force(self, nums: list[int], k: int) -> list[int]:
         # TLE, 38/53 testcases passed
@@ -15,6 +16,20 @@ class Solution:
                     maximum = nums[j]
             results.append(maximum)
         return results
+
+    def onlogn_priority_queue(self, nums: list[int], k: int) -> list[int]:
+        heap = []
+        answer = []
+        for i in range(len(nums)):
+            heapq.heappush(heap, (-nums[i], i))
+
+            while len(heap) > 0 and heap[0][1] <= i - k:
+                heapq.heappop(heap)
+
+            if i >= k - 1:
+                answer.append(-heap[0][0])
+
+        return answer
 
     def on_descending_queue(self, nums: list[int], k: int) -> list[int]:
         index_descending_queue = deque()
@@ -33,10 +48,5 @@ class Solution:
 
         return answer
 
-
-if __name__ == '__main__':
-    nums = [3,1,1,3]
-    k = 3
-    print(Solution().maxSlidingWindow(nums, k))
 
 
